@@ -1,0 +1,446 @@
+// letras
+
+IFS(
+	LEN(CONCATENATE([nro]))=1,[unidades],
+	LEN(CONCATENATE([nro]))=2,[decenas],
+	LEN(CONCATENATE([nro]))=3,[centenas],
+	LEN(CONCATENATE([nro]))=4,
+	IFS(
+		[ultimos3]="000",[miles]&" mil",
+		AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[miles]&" mil "&[unidades],
+		AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[miles]&" mil "&[decenas],
+		TRUE,[miles]&" mil "&[centenas]
+	),
+	LEN(CONCATENATE([nro]))=5,
+	IFS(
+		[ultimos3]="000",[diez miles]&" mil",
+		AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[diez miles]&" mil "&[unidades],
+		AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[diez miles]&" mil "&[decenas],
+		TRUE,[diez miles]&" mil "&[centenas]
+	),
+	LEN(CONCATENATE([nro]))=6,
+	IFS(
+		[ultimos3]="000",[cien miles]&" mil",
+		AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[cien miles]&" mil "&[unidades],
+		AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[cien miles]&" mil "&[decenas],
+		TRUE,[cien miles]&" mil "&[centenas]
+	),
+	LEN(CONCATENATE([nro]))=7,
+	IFS(
+		[primeros3]="000",
+		IFS(
+			[ultimos3]="000",[millones]&" millones",
+			AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[millones]&" millones "&[unidades],
+			AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[millones]&" millones "&[decenas],
+			TRUE,[millones]&" millones "&[centenas]
+		),
+		AND(LEFT([primeros3],2)="00",NOT(RIGHT([primeros3],1)="0")),
+		IFS(
+			[ultimos3]="000",[millones]&" millones "&[millones]&" mil",
+			AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[millones]&" millones "&[miles]&" mil "&[unidades],
+			AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[millones]&" millones "&[miles]&" mil "&[decenas],
+			TRUE,[millones]&" millones "&[miles]&" mil "&[centenas]
+		),
+		AND(LEFT([primeros3],1)="0",NOT(MID([primeros3],2,1)="0")),
+		IFS(
+			[ultimos3]="000",[millones]&" millones "&[diez miles]&" mil",
+			AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[millones]&" millones "&[diez miles]&" mil "&[unidades],
+			AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[millones]&" millones "&[diez miles]&" mil "&[decenas],
+			TRUE,[millones]&" millones "&[diez miles]&" mil "&[centenas]
+		),
+		TRUE,
+		IFS(
+			[ultimos3]="000",[millones]&" millones "&[cien miles]&" mil",
+			AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[millones]&" millones "&[cien miles]&" mil "&[unidades],
+			AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[millones]&" millones "&[cien miles]&" mil "&[decenas],
+			TRUE,[millones]&" millones "&[cien miles]&" mil "&[centenas]
+		)
+	),
+	LEN(CONCATENATE([nro]))=8,
+	IFS(
+		[primeros3]="000",
+		IFS(
+			[ultimos3]="000",[diez millones]&" millones",
+			AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[diez millones]&" millones "&[unidades],
+			AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[diez millones]&" millones "&[decenas],
+			TRUE,[diez millones]&" millones "&[centenas]
+		),
+		AND(LEFT([primeros3],2)="00",NOT(RIGHT([primeros3],1)="0")),
+		IFS(
+			[ultimos3]="000",[diez millones]&" millones "&[millones]&" mil",
+			AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[diez millones]&" millones "&[miles]&" mil "&[unidades],
+			AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[diez millones]&" millones "&[miles]&" mil "&[decenas],
+			TRUE,[diez millones]&" millones "&[miles]&" mil "&[centenas]
+		),
+		AND(LEFT([primeros3],1)="0",NOT(MID([primeros3],2,1)="0")),
+		IFS(
+			[ultimos3]="000",[diez millones]&" millones "&[diez miles]&" mil",
+			AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[diez millones]&" millones "&[diez miles]&" mil "&[unidades],
+			AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[diez millones]&" millones "&[diez miles]&" mil "&[decenas],
+			TRUE,[diez millones]&" millones "&[diez miles]&" mil "&[centenas]
+		),
+		TRUE,
+		IFS(
+			[ultimos3]="000",[diez millones]&" millones "&[cien miles]&" mil",
+			AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[diez millones]&" millones "&[cien miles]&" mil "&[unidades],
+			AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[diez millones]&" millones "&[cien miles]&" mil "&[decenas],
+			TRUE,[diez millones]&" millones "&[cien miles]&" mil "&[centenas]
+		)
+	),
+	LEN(CONCATENATE([nro]))=9,
+	IFS(
+		[primeros3]="000",
+		IFS(
+			[ultimos3]="000",[cien millones]&" millones",
+			AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[cien millones]&" millones "&[unidades],
+			AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[cien millones]&" millones "&[decenas],
+			TRUE,[cien millones]&" millones "&[centenas]
+		),
+		AND(LEFT([primeros3],2)="00",NOT(RIGHT([primeros3],1)="0")),
+		IFS(
+			[ultimos3]="000",[cien millones]&" millones "&[millones]&" mil",
+			AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[cien millones]&" millones "&[millones]&" mil "&[unidades],
+			AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[cien millones]&" millones "&[millones]&" mil "&[decenas],
+			TRUE,[cien millones]&" millones "&[millones]&" mil "&[centenas]
+		),
+		AND(LEFT([primeros3],1)="0",NOT(MID([primeros3],2,1)="0")),
+		IFS(
+			[ultimos3]="000",[cien millones]&" millones "&[diez miles]&" miles",
+			AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[cien millones]&" millones "&[diez miles]&" mil "&[unidades],
+			AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[cien millones]&" millones "&[diez miles]&" mil "&[decenas],
+			TRUE,[cien millones]&" millones "&[diez miles]&" mil "&[centenas]
+		),
+		TRUE,
+		IFS(
+			[ultimos3]="000",[cien millones]&" millones "&[cien miles]&" mil",
+			AND(LEFT([ultimos3],2)="00",NOT(RIGHT([ultimos3],1)="0")),[cien millones]&" millones "&[cien miles]&" mil "&[unidades],
+			AND(LEFT([ultimos3],1)="0",NOT(MID([ultimos3],2,1)="0")),[cien millones]&" millones "&[cien miles]&" mil "&[decenas],
+			TRUE,[cien millones]&" millones "&[cien miles]&" mil "&[centenas]
+		)
+	)
+)
+
+
+// ultimos3
+
+IF(
+	LEN(CONCATENATE([nro]))>=3,
+  RIGHT(CONCATENATE([nro]),3),
+  CONCATENATE([nro])
+)
+
+
+// unidades
+
+IFS(
+	RIGHT([ultimos3],1)="1","Uno",
+	RIGHT([ultimos3],1)="2","Dos",
+	RIGHT([ultimos3],1)="3","Tres",
+	RIGHT([ultimos3],1)="4","cuatro",
+	RIGHT([ultimos3],1)="5","Cinco",
+	RIGHT([ultimos3],1)="6","Seis",
+	RIGHT([ultimos3],1)="7","Siete",
+	RIGHT([ultimos3],1)="8","Ocho",
+	RIGHT([ultimos3],1)="9","Nueve"
+)
+
+
+// decenas
+
+IFS(
+	LEN([ultimos3])=2,
+	IFS(
+		AND(LEFT([ultimos3],1)="1",RIGHT([ultimos3],1)="0"),"Diez",
+		AND(LEFT([ultimos3],1)="1",RIGHT([ultimos3],1)="1"),"Once",
+		AND(LEFT([ultimos3],1)="1",RIGHT([ultimos3],1)="2"),"Doce",
+		AND(LEFT([ultimos3],1)="1",RIGHT([ultimos3],1)="3"),"Trece",
+		AND(LEFT([ultimos3],1)="1",RIGHT([ultimos3],1)="4"),"Catorce",
+		AND(LEFT([ultimos3],1)="1",RIGHT([ultimos3],1)="5"),"Quince",
+		AND(LEFT([ultimos3],1)="1",RIGHT([ultimos3],1)="6"),"Dieciseis",
+		AND(LEFT([ultimos3],1)="1",RIGHT([ultimos3],1)="7"),"Diecisiete",
+		AND(LEFT([ultimos3],1)="1",RIGHT([ultimos3],1)="8"),"Dieciocho",
+		AND(LEFT([ultimos3],1)="1",RIGHT([ultimos3],1)="9"),"Diecinueve",
+		AND(LEFT([ultimos3],1)="2",RIGHT([ultimos3],1)="0"),"Veinte",
+		AND(LEFT([ultimos3],1)="2",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Veinte y ",[unidades]),
+		AND(LEFT([ultimos3],1)="3",RIGHT([ultimos3],1)="0"),"Treinta",
+		AND(LEFT([ultimos3],1)="3",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Treinta y ",[unidades]),
+		AND(LEFT([ultimos3],1)="4",RIGHT([ultimos3],1)="0"),"Cuarenta",
+		AND(LEFT([ultimos3],1)="4",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Cuarenta y ",[unidades]),
+		AND(LEFT([ultimos3],1)="5",RIGHT([ultimos3],1)="0"),"Cincuenta",
+		AND(LEFT([ultimos3],1)="5",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Cincuenta y ",[unidades]),
+		AND(LEFT([ultimos3],1)="6",RIGHT([ultimos3],1)="0"),"Sesenta",
+		AND(LEFT([ultimos3],1)="6",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Sesenta y ",[unidades]),
+		AND(LEFT([ultimos3],1)="7",RIGHT([ultimos3],1)="0"),"Setenta",
+		AND(LEFT([ultimos3],1)="7",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Setenta y ",[unidades]),
+		AND(LEFT([ultimos3],1)="8",RIGHT([ultimos3],1)="0"),"Ochenta",
+		AND(LEFT([ultimos3],1)="8",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Ochenta y",[unidades]),
+		AND(LEFT([ultimos3],1)="9",RIGHT([ultimos3],1)="0"),"Noventa",
+		AND(LEFT([ultimos3],1)="9",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Noventa y ",[unidades])
+	),
+  LEN([ultimos3])>2,
+	IFS(
+		AND(LEFT(RIGHT([ultimos3],2),1)="1",RIGHT([ultimos3],1)="0"),"Diez",
+		AND(LEFT(RIGHT([ultimos3],2),1)="1",RIGHT([ultimos3],1)="1"),"Once",
+		AND(LEFT(RIGHT([ultimos3],2),1)="1",RIGHT([ultimos3],1)="2"),"Doce",
+		AND(LEFT(RIGHT([ultimos3],2),1)="1",RIGHT([ultimos3],1)="3"),"Trece",
+		AND(LEFT(RIGHT([ultimos3],2),1)="1",RIGHT([ultimos3],1)="4"),"Catorce",
+		AND(LEFT(RIGHT([ultimos3],2),1)="1",RIGHT([ultimos3],1)="5"),"Quince",
+		AND(LEFT(RIGHT([ultimos3],2),1)="1",RIGHT([ultimos3],1)="6"),"Dieciseis",
+		AND(LEFT(RIGHT([ultimos3],2),1)="1",RIGHT([ultimos3],1)="7"),"Diecisiete",
+		AND(LEFT(RIGHT([ultimos3],2),1)="1",RIGHT([ultimos3],1)="8"),"Dieciocho",
+		AND(LEFT(RIGHT([ultimos3],2),1)="1",RIGHT([ultimos3],1)="9"),"Diecinueve",
+		AND(LEFT(RIGHT([ultimos3],2),1)="2",RIGHT([ultimos3],1)="0"),"Veinte",
+		AND(LEFT(RIGHT([ultimos3],2),1)="2",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Veinte y ",[unidades]),
+		AND(LEFT(RIGHT([ultimos3],2),1)="3",RIGHT([ultimos3],1)="0"),"Treinta",
+		AND(LEFT(RIGHT([ultimos3],2),1)="3",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Treinta y ",[unidades]),
+		AND(LEFT(RIGHT([ultimos3],2),1)="4",RIGHT([ultimos3],1)="0"),"Cuarenta",
+		AND(LEFT(RIGHT([ultimos3],2),1)="4",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Cuarenta y ",[unidades]),
+		AND(LEFT(RIGHT([ultimos3],2),1)="5",RIGHT([ultimos3],1)="0"),"Cincuenta",
+		AND(LEFT(RIGHT([ultimos3],2),1)="5",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Cincuenta y ",[unidades]),
+		AND(LEFT(RIGHT([ultimos3],2),1)="6",RIGHT([ultimos3],1)="0"),"Sesenta",
+		AND(LEFT(RIGHT([ultimos3],2),1)="6",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Sesenta y ",[unidades]),
+		AND(LEFT(RIGHT([ultimos3],2),1)="7",RIGHT([ultimos3],1)="0"),"Setenta",
+		AND(LEFT(RIGHT([ultimos3],2),1)="7",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Setenta y ",[unidades]),
+		AND(LEFT(RIGHT([ultimos3],2),1)="8",RIGHT([ultimos3],1)="0"),"Ochenta",
+		AND(LEFT(RIGHT([ultimos3],2),1)="8",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Ochenta y ",[unidades]),
+		AND(LEFT(RIGHT([ultimos3],2),1)="9",RIGHT([ultimos3],1)="0"),"Noventa",
+		AND(LEFT(RIGHT([ultimos3],2),1)="9",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Noventa y ",[unidades])
+	)
+)
+
+// centenas
+
+IFS(
+		AND(LEFT([ultimos3],1)="1",LEFT(RIGHT([ultimos3],2),1)="0",RIGHT([ultimos3],1)="0"),"Ciento",
+		AND(LEFT([ultimos3],1)="2",LEFT(RIGHT([ultimos3],2),1)="0",RIGHT([ultimos3],1)="0"),"Doscientos",
+		AND(LEFT([ultimos3],1)="3",LEFT(RIGHT([ultimos3],2),1)="0",RIGHT([ultimos3],1)="0"),"Trescientos",
+		AND(LEFT([ultimos3],1)="4",LEFT(RIGHT([ultimos3],2),1)="0",RIGHT([ultimos3],1)="0"),"Cuatrocientos",
+		AND(LEFT([ultimos3],1)="5",LEFT(RIGHT([ultimos3],2),1)="0",RIGHT([ultimos3],1)="0"),"Quinientos",
+		AND(LEFT([ultimos3],1)="6",LEFT(RIGHT([ultimos3],2),1)="0",RIGHT([ultimos3],1)="0"),"Seiscientos",
+		AND(LEFT([ultimos3],1)="7",LEFT(RIGHT([ultimos3],2),1)="0",RIGHT([ultimos3],1)="0"),"Setecientos",
+		AND(LEFT([ultimos3],1)="8",LEFT(RIGHT([ultimos3],2),1)="0",RIGHT([ultimos3],1)="0"),"Ochocientos",
+		AND(LEFT([ultimos3],1)="9",LEFT(RIGHT([ultimos3],2),1)="0",RIGHT([ultimos3],1)="0"),"Novecientos",
+		AND(LEFT([ultimos3],1)="1",LEFT(RIGHT([ultimos3],2),1)="0",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Ciento ",[unidades]),
+		AND(LEFT([ultimos3],1)="2",LEFT(RIGHT([ultimos3],2),1)="0",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Doscientos ",[unidades]),
+		AND(LEFT([ultimos3],1)="3",LEFT(RIGHT([ultimos3],2),1)="0",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Trescientos ",[unidades]),
+		AND(LEFT([ultimos3],1)="4",LEFT(RIGHT([ultimos3],2),1)="0",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Cuatrocientos ",[unidades]),
+		AND(LEFT([ultimos3],1)="5",LEFT(RIGHT([ultimos3],2),1)="0",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Qunientos ",[unidades]),
+		AND(LEFT([ultimos3],1)="6",LEFT(RIGHT([ultimos3],2),1)="0",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Seiscientos ",[unidades]),
+		AND(LEFT([ultimos3],1)="7",LEFT(RIGHT([ultimos3],2),1)="0",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Setecientos ",[unidades]),
+		AND(LEFT([ultimos3],1)="8",LEFT(RIGHT([ultimos3],2),1)="0",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Ochocientos ",[unidades]),
+		AND(LEFT([ultimos3],1)="9",LEFT(RIGHT([ultimos3],2),1)="0",NOT(RIGHT([ultimos3],1)="0")),CONCATENATE("Novecientos ",[unidades]),
+		AND(LEFT([ultimos3],1)="1",NOT(LEFT(RIGHT([ultimos3],2),1)="0")),CONCATENATE("Ciento ",[decenas]),
+		AND(LEFT([ultimos3],1)="2",NOT(LEFT(RIGHT([ultimos3],2),1)="0")),CONCATENATE("Doscientos ",[decenas]),
+		AND(LEFT([ultimos3],1)="3",NOT(LEFT(RIGHT([ultimos3],2),1)="0")),CONCATENATE("Trescientos ",[decenas]),
+		AND(LEFT([ultimos3],1)="4",NOT(LEFT(RIGHT([ultimos3],2),1)="0")),CONCATENATE("Cuatrocientos ",[decenas]),
+		AND(LEFT([ultimos3],1)="5",NOT(LEFT(RIGHT([ultimos3],2),1)="0")),CONCATENATE("Quinientos ",[decenas]),
+		AND(LEFT([ultimos3],1)="6",NOT(LEFT(RIGHT([ultimos3],2),1)="0")),CONCATENATE("Seiscientos ",[decenas]),
+		AND(LEFT([ultimos3],1)="7",NOT(LEFT(RIGHT([ultimos3],2),1)="0")),CONCATENATE("Setecientos ",[decenas]),
+		AND(LEFT([ultimos3],1)="8",NOT(LEFT(RIGHT([ultimos3],2),1)="0")),CONCATENATE("Ochocientos ",[decenas]),
+		AND(LEFT([ultimos3],1)="9",NOT(LEFT(RIGHT([ultimos3],2),1)="0")),CONCATENATE("Novecientos ",[decenas])
+)
+
+// primeros3
+
+IFS(
+	LEN(CONCATENATE([nro]))=4,LEFT(CONCATENATE([nro]),1),
+	LEN(CONCATENATE([nro]))=5,LEFT(CONCATENATE([nro]),2),
+	LEN(CONCATENATE([nro]))=6,LEFT(CONCATENATE([nro]),3),
+	LEN(CONCATENATE([nro]))=7,MID(CONCATENATE([nro]),2,3),
+	LEN(CONCATENATE([nro]))=8,MID(CONCATENATE([nro]),3,3),
+	LEN(CONCATENATE([nro]))=9,MID(CONCATENATE([nro]),4,3),
+)
+
+// miles
+
+IFS(
+		RIGHT([primeros3],1)="1","Uno",
+		RIGHT([primeros3],1)="2","Dos",
+		RIGHT([primeros3],1)="3","Tres",
+		RIGHT([primeros3],1)="4","Cuatro",
+		RIGHT([primeros3],1)="5","Cinco",
+		RIGHT([primeros3],1)="6","Seis",
+		RIGHT([primeros3],1)="7","Siete",
+		RIGHT([primeros3],1)="8","Ocho",
+		RIGHT([primeros3],1)="9","Nueve"
+)
+
+// diez miles
+
+IFS(
+		AND(LEFT(RIGHT([primeros3],2),1)="1",RIGHT([primeros3],1)="0"),"Diez",
+		AND(LEFT(RIGHT([primeros3],2),1)="1",RIGHT([primeros3],1)="1"),"Once",
+		AND(LEFT(RIGHT([primeros3],2),1)="1",RIGHT([primeros3],1)="2"),"Doce",
+		AND(LEFT(RIGHT([primeros3],2),1)="1",RIGHT([primeros3],1)="3"),"Trece",
+		AND(LEFT(RIGHT([primeros3],2),1)="1",RIGHT([primeros3],1)="4"),"Catorce",
+		AND(LEFT(RIGHT([primeros3],2),1)="1",RIGHT([primeros3],1)="5"),"Quince",
+		AND(LEFT(RIGHT([primeros3],2),1)="1",RIGHT([primeros3],1)="6"),"Dieciseis",
+		AND(LEFT(RIGHT([primeros3],2),1)="1",RIGHT([primeros3],1)="7"),"Diecisiete",
+		AND(LEFT(RIGHT([primeros3],2),1)="1",RIGHT([primeros3],1)="8"),"Dieciocho",
+		AND(LEFT(RIGHT([primeros3],2),1)="1",RIGHT([primeros3],1)="9"),"Diecinueve",
+		AND(LEFT(RIGHT([primeros3],2),1)="2",RIGHT([primeros3],1)="0"),"Veinte",
+		AND(LEFT(RIGHT([primeros3],2),1)="3",RIGHT([primeros3],1)="0"),"Treinta",
+		AND(LEFT(RIGHT([primeros3],2),1)="4",RIGHT([primeros3],1)="0"),"Cuarenta",
+		AND(LEFT(RIGHT([primeros3],2),1)="5",RIGHT([primeros3],1)="0"),"Cincuenta",
+		AND(LEFT(RIGHT([primeros3],2),1)="6",RIGHT([primeros3],1)="0"),"Sesenta",
+		AND(LEFT(RIGHT([primeros3],2),1)="7",RIGHT([primeros3],1)="0"),"Setenta",
+		AND(LEFT(RIGHT([primeros3],2),1)="8",RIGHT([primeros3],1)="0"),"Ochenta",
+		AND(LEFT(RIGHT([primeros3],2),1)="9",RIGHT([primeros3],1)="0"),"Noventa",
+		AND(LEFT(RIGHT([primeros3],2),1)="2",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Veinte y ",[miles]),
+		AND(LEFT(RIGHT([primeros3],2),1)="3",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Treinta y ",[miles]),
+		AND(LEFT(RIGHT([primeros3],2),1)="4",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Cuarenta y ",[miles]),
+		AND(LEFT(RIGHT([primeros3],2),1)="5",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Cincuenta y ",[miles]),
+		AND(LEFT(RIGHT([primeros3],2),1)="6",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Sesenta y ",[miles]),
+		AND(LEFT(RIGHT([primeros3],2),1)="7",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Setenta y ",[miles]),
+		AND(LEFT(RIGHT([primeros3],2),1)="8",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Ochenta y ",[miles]),
+		AND(LEFT(RIGHT([primeros3],2),1)="9",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Noventa y ",[miles])
+)
+
+// cien miles
+
+IFS(
+		AND(LEFT([primeros3],1)="1",LEFT(RIGHT([primeros3],2),1)="0",RIGHT([primeros3],1)="0"),"Ciento",
+		AND(LEFT([primeros3],1)="2",LEFT(RIGHT([primeros3],2),1)="0",RIGHT([primeros3],1)="0"),"Doscientos",
+		AND(LEFT([primeros3],1)="3",LEFT(RIGHT([primeros3],2),1)="0",RIGHT([primeros3],1)="0"),"Trescientos",
+		AND(LEFT([primeros3],1)="4",LEFT(RIGHT([primeros3],2),1)="0",RIGHT([primeros3],1)="0"),"Cuatrocientos",
+		AND(LEFT([primeros3],1)="5",LEFT(RIGHT([primeros3],2),1)="0",RIGHT([primeros3],1)="0"),"Quinientos",
+		AND(LEFT([primeros3],1)="6",LEFT(RIGHT([primeros3],2),1)="0",RIGHT([primeros3],1)="0"),"Seiscientos",
+		AND(LEFT([primeros3],1)="7",LEFT(RIGHT([primeros3],2),1)="0",RIGHT([primeros3],1)="0"),"Setecientos",
+		AND(LEFT([primeros3],1)="8",LEFT(RIGHT([primeros3],2),1)="0",RIGHT([primeros3],1)="0"),"Ochocientos",
+		AND(LEFT([primeros3],1)="9",LEFT(RIGHT([primeros3],2),1)="0",RIGHT([primeros3],1)="0"),"Novecientos",
+		AND(LEFT([primeros3],1)="1",LEFT(RIGHT([primeros3],2),1)="0",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Ciento ",[miles]),
+		AND(LEFT([primeros3],1)="2",LEFT(RIGHT([primeros3],2),1)="0",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Doscientos ",[miles]),
+		AND(LEFT([primeros3],1)="3",LEFT(RIGHT([primeros3],2),1)="0",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Trescientos ",[miles]),
+		AND(LEFT([primeros3],1)="4",LEFT(RIGHT([primeros3],2),1)="0",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Cuatrocientos ",[miles]),
+		AND(LEFT([primeros3],1)="5",LEFT(RIGHT([primeros3],2),1)="0",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Quinientos ",[miles]),
+		AND(LEFT([primeros3],1)="6",LEFT(RIGHT([primeros3],2),1)="0",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Seiscientos ",[miles]),
+		AND(LEFT([primeros3],1)="7",LEFT(RIGHT([primeros3],2),1)="0",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Setecientos ",[miles]),
+		AND(LEFT([primeros3],1)="8",LEFT(RIGHT([primeros3],2),1)="0",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Ochocientos ",[miles]),
+		AND(LEFT([primeros3],1)="9",LEFT(RIGHT([primeros3],2),1)="0",NOT(RIGHT([primeros3],1)="0")),CONCATENATE("Novecientos ",[miles]),
+		AND(LEFT([primeros3],1)="1",NOT(LEFT(RIGHT([primeros3],2),1)="0")),CONCATENATE("Ciento ",[diez miles]),
+		AND(LEFT([primeros3],1)="2",NOT(LEFT(RIGHT([primeros3],2),1)="0")),CONCATENATE("Doscientos ",[diez miles]),
+		AND(LEFT([primeros3],1)="3",NOT(LEFT(RIGHT([primeros3],2),1)="0")),CONCATENATE("Trescientos ",[diez miles]),
+		AND(LEFT([primeros3],1)="4",NOT(LEFT(RIGHT([primeros3],2),1)="0")),CONCATENATE("Cuatrocientos ",[diez miles]),
+		AND(LEFT([primeros3],1)="5",NOT(LEFT(RIGHT([primeros3],2),1)="0")),CONCATENATE("Quinientos ",[diez miles]),
+		AND(LEFT([primeros3],1)="6",NOT(LEFT(RIGHT([primeros3],2),1)="0")),CONCATENATE("Seiscientos ",[diez miles]),
+		AND(LEFT([primeros3],1)="7",NOT(LEFT(RIGHT([primeros3],2),1)="0")),CONCATENATE("Setecientos ",[diez miles]),
+		AND(LEFT([primeros3],1)="8",NOT(LEFT(RIGHT([primeros3],2),1)="0")),CONCATENATE("Ochocientos ",[diez miles]),
+		AND(LEFT([primeros3],1)="9",NOT(LEFT(RIGHT([primeros3],2),1)="0")),CONCATENATE("Novecientos ",[diez miles])
+)
+
+// Mprimeros 3 - cifras de millones
+
+IFS(
+	LEN(CONCATENATE([nro]))=7,LEFT(CONCATENATE([nro]),1),
+	LEN(CONCATENATE([nro]))=8,LEFT(CONCATENATE([nro]),2),
+	LEN(CONCATENATE([nro]))=9,LEFT(CONCATENATE([nro]),3)
+)
+
+// millones
+
+IFS(
+	RIGHT([Mprimeros3],1)="1","Uno",
+	RIGHT([Mprimeros3],1)="2","Dos",
+	RIGHT([Mprimeros3],1)="3","Tres",
+	RIGHT([Mprimeros3],1)="4","Cuatro",
+	RIGHT([Mprimeros3],1)="5","Cinco",
+	RIGHT([Mprimeros3],1)="6","Seis",
+	RIGHT([Mprimeros3],1)="7","Siete",
+	RIGHT([Mprimeros3],1)="8","Ocho",
+	RIGHT([Mprimeros3],1)="9","Nueve"
+)
+
+//  diez millones
+
+IFS(
+	LEN([Mprimeros3])=2,
+	IFS(
+		AND(LEFT([Mprimeros3],1)="1",RIGHT([Mprimeros3],1)="0"),"Diez",
+		AND(LEFT([Mprimeros3],1)="1",RIGHT([Mprimeros3],1)="1"),"Once",
+		AND(LEFT([Mprimeros3],1)="1",RIGHT([Mprimeros3],1)="2"),"Doce",
+		AND(LEFT([Mprimeros3],1)="1",RIGHT([Mprimeros3],1)="3"),"Trece",
+		AND(LEFT([Mprimeros3],1)="1",RIGHT([Mprimeros3],1)="4"),"Catorce",
+		AND(LEFT([Mprimeros3],1)="1",RIGHT([Mprimeros3],1)="5"),"Quince",
+		AND(LEFT([Mprimeros3],1)="1",RIGHT([Mprimeros3],1)="6"),"Dieciseis",
+		AND(LEFT([Mprimeros3],1)="1",RIGHT([Mprimeros3],1)="7"),"Diecisiete",
+		AND(LEFT([Mprimeros3],1)="1",RIGHT([Mprimeros3],1)="8"),"Dieciocho",
+		AND(LEFT([Mprimeros3],1)="1",RIGHT([Mprimeros3],1)="9"),"Diecinueve",
+		AND(LEFT([Mprimeros3],1)="2",RIGHT([Mprimeros3],1)="0"),"Veinte",
+		AND(LEFT([Mprimeros3],1)="2",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Veinte ",[millones]),
+		AND(LEFT([Mprimeros3],1)="3",RIGHT([Mprimeros3],1)="0"),"Thirty",
+		AND(LEFT([Mprimeros3],1)="3",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Treinta ",[millones]),
+		AND(LEFT([Mprimeros3],1)="4",RIGHT([Mprimeros3],1)="0"),"Fourty",
+		AND(LEFT([Mprimeros3],1)="4",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Cuarenta ",[millones]),
+		AND(LEFT([Mprimeros3],1)="5",RIGHT([Mprimeros3],1)="0"),"Fifty",
+		AND(LEFT([Mprimeros3],1)="5",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Cincuenta ",[millones]),
+		AND(LEFT([Mprimeros3],1)="6",RIGHT([Mprimeros3],1)="0"),"Sixty",
+		AND(LEFT([Mprimeros3],1)="6",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Sesenta ",[millones]),
+		AND(LEFT([Mprimeros3],1)="7",RIGHT([Mprimeros3],1)="0"),"Seventy",
+		AND(LEFT([Mprimeros3],1)="7",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Setenta ",[millones]),
+		AND(LEFT([Mprimeros3],1)="8",RIGHT([Mprimeros3],1)="0"),"Eighty",
+		AND(LEFT([Mprimeros3],1)="8",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Ochenta ",[millones]),
+		AND(LEFT([Mprimeros3],1)="9",RIGHT([Mprimeros3],1)="0"),"Ninety",
+		AND(LEFT([Mprimeros3],1)="9",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Noventa ",[millones])
+	),
+  LEN([Mprimeros3])>2,
+	IFS(
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="1",RIGHT([Mprimeros3],1)="0"),"Diez",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="1",RIGHT([Mprimeros3],1)="1"),"Once",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="1",RIGHT([Mprimeros3],1)="2"),"Doce",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="1",RIGHT([Mprimeros3],1)="3"),"Trece",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="1",RIGHT([Mprimeros3],1)="4"),"Catorce",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="1",RIGHT([Mprimeros3],1)="5"),"Quince",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="1",RIGHT([Mprimeros3],1)="6"),"Dieciseis",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="1",RIGHT([Mprimeros3],1)="7"),"Diecisiete",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="1",RIGHT([Mprimeros3],1)="8"),"Dieciocho",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="1",RIGHT([Mprimeros3],1)="9"),"Diecinueve",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="2",RIGHT([Mprimeros3],1)="0"),"Veinte",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="2",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Veinte ",[millones]),
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="3",RIGHT([Mprimeros3],1)="0"),"Thirty",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="3",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Treinta ",[millones]),
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="4",RIGHT([Mprimeros3],1)="0"),"Fourty",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="4",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Cuarenta ",[millones]),
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="5",RIGHT([Mprimeros3],1)="0"),"Fifty",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="5",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Cincuenta ",[millones]),
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="6",RIGHT([Mprimeros3],1)="0"),"Sixty",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="6",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Sesenta ",[millones]),
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="7",RIGHT([Mprimeros3],1)="0"),"Seventy",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="7",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Setenta ",[millones]),
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="8",RIGHT([Mprimeros3],1)="0"),"Eighty",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="8",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Ochenta ",[millones]),
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="9",RIGHT([Mprimeros3],1)="0"),"Ninety",
+		AND(LEFT(RIGHT([Mprimeros3],2),1)="9",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Noventa ",[millones])
+	)
+)
+
+// cien millones
+
+IFS(
+		AND(LEFT([Mprimeros3],1)="1",LEFT(RIGHT([Mprimeros3],2),1)="0",RIGHT([Mprimeros3],1)="0"),"Ciento",
+		AND(LEFT([Mprimeros3],1)="2",LEFT(RIGHT([Mprimeros3],2),1)="0",RIGHT([Mprimeros3],1)="0"),"Doscientos",
+		AND(LEFT([Mprimeros3],1)="3",LEFT(RIGHT([Mprimeros3],2),1)="0",RIGHT([Mprimeros3],1)="0"),"Trescientos",
+		AND(LEFT([Mprimeros3],1)="4",LEFT(RIGHT([Mprimeros3],2),1)="0",RIGHT([Mprimeros3],1)="0"),"Cuatrocientos",
+		AND(LEFT([Mprimeros3],1)="5",LEFT(RIGHT([Mprimeros3],2),1)="0",RIGHT([Mprimeros3],1)="0"),"Quinientos",
+		AND(LEFT([Mprimeros3],1)="6",LEFT(RIGHT([Mprimeros3],2),1)="0",RIGHT([Mprimeros3],1)="0"),"Seiscientos",
+		AND(LEFT([Mprimeros3],1)="7",LEFT(RIGHT([Mprimeros3],2),1)="0",RIGHT([Mprimeros3],1)="0"),"Setecientos",
+		AND(LEFT([Mprimeros3],1)="8",LEFT(RIGHT([Mprimeros3],2),1)="0",RIGHT([Mprimeros3],1)="0"),"Ochocientos",
+		AND(LEFT([Mprimeros3],1)="9",LEFT(RIGHT([Mprimeros3],2),1)="0",RIGHT([Mprimeros3],1)="0"),"Novecientos",
+		AND(LEFT([Mprimeros3],1)="1",LEFT(RIGHT([Mprimeros3],2),1)="0",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Ciento ",[millones]),
+		AND(LEFT([Mprimeros3],1)="2",LEFT(RIGHT([Mprimeros3],2),1)="0",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Doscientos ",[millones]),
+		AND(LEFT([Mprimeros3],1)="3",LEFT(RIGHT([Mprimeros3],2),1)="0",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Trescientos ",[millones]),
+		AND(LEFT([Mprimeros3],1)="4",LEFT(RIGHT([Mprimeros3],2),1)="0",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Cuatrocientos ",[millones]),
+		AND(LEFT([Mprimeros3],1)="5",LEFT(RIGHT([Mprimeros3],2),1)="0",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Quinientos",[millones]),
+		AND(LEFT([Mprimeros3],1)="6",LEFT(RIGHT([Mprimeros3],2),1)="0",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Seiscientos ",[millones]),
+		AND(LEFT([Mprimeros3],1)="7",LEFT(RIGHT([Mprimeros3],2),1)="0",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Setecientos ",[millones]),
+		AND(LEFT([Mprimeros3],1)="8",LEFT(RIGHT([Mprimeros3],2),1)="0",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Ochocientos ",[millones]),
+		AND(LEFT([Mprimeros3],1)="9",LEFT(RIGHT([Mprimeros3],2),1)="0",NOT(RIGHT([Mprimeros3],1)="0")),CONCATENATE("Novecientos ",[millones]),
+		AND(LEFT([Mprimeros3],1)="1",NOT(LEFT(RIGHT([Mprimeros3],2),1)="0")),CONCATENATE("Ciento ",[diez millones]),
+		AND(LEFT([Mprimeros3],1)="2",NOT(LEFT(RIGHT([Mprimeros3],2),1)="0")),CONCATENATE("Doscientos ",[diez millones]),
+		AND(LEFT([Mprimeros3],1)="3",NOT(LEFT(RIGHT([Mprimeros3],2),1)="0")),CONCATENATE("Trescientos ",[diez millones]),
+		AND(LEFT([Mprimeros3],1)="4",NOT(LEFT(RIGHT([Mprimeros3],2),1)="0")),CONCATENATE("Cuatrocientos ",[diez millones]),
+		AND(LEFT([Mprimeros3],1)="5",NOT(LEFT(RIGHT([Mprimeros3],2),1)="0")),CONCATENATE("Quinientos ",[diez millones]),
+		AND(LEFT([Mprimeros3],1)="6",NOT(LEFT(RIGHT([Mprimeros3],2),1)="0")),CONCATENATE("Seiscientos ",[diez millones]),
+		AND(LEFT([Mprimeros3],1)="7",NOT(LEFT(RIGHT([Mprimeros3],2),1)="0")),CONCATENATE("Setecientos ",[diez millones]),
+		AND(LEFT([Mprimeros3],1)="8",NOT(LEFT(RIGHT([Mprimeros3],2),1)="0")),CONCATENATE("Ochocientos ",[diez millones]),
+		AND(LEFT([Mprimeros3],1)="9",NOT(LEFT(RIGHT([Mprimeros3],2),1)="0")),CONCATENATE("Novecientos ",[diez millones])
+)
